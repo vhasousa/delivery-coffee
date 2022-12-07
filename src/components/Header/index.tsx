@@ -7,16 +7,18 @@ import logoImg from '../../assets/logo.png'
 export function Header() {
   return (
     <HeaderContainer>
-      <img src={logoImg} alt="" />
-      <div>
-        <NavLink to="/" title="">
-          <MapPin size={24} weight="fill" />
-          <span>Valença, RJ</span>
-        </NavLink>
+      <div className="header__wrapper">
+        <img src={logoImg} alt="" />
+        <div>
+          <NavLink to="/" title="">
+            <MapPin size={24} weight="fill" />
+            <span>Valença, RJ</span>
+          </NavLink>
 
-        <NavLink to="/" title="">
-          <ShoppingCart size={24} weight="fill" />
-        </NavLink>
+          <NavLink to="/" title="">
+            <ShoppingCart size={24} weight="fill" />
+          </NavLink>
+        </div>
       </div>
     </HeaderContainer>
   )
