@@ -18,13 +18,18 @@ export const CardContainer = styled.article`
   }
 
   .card__tag {
-    background: ${(props) => props.theme['yellow-light']};
-    color: ${(props) => props.theme['yellow-dark']};
-    padding: 0.375rem;
-    border-radius: 1rem;
-    font-size: 0.625rem;
-    font-weight: 700;
-    margin-top: 1rem;
+    display: flex;
+    gap: 0.5rem;
+
+    span {
+      background: ${(props) => props.theme['yellow-light']};
+      color: ${(props) => props.theme['yellow-dark']};
+      padding: 0.375rem;
+      border-radius: 1rem;
+      font-size: 0.625rem;
+      font-weight: 700;
+      margin-top: 1rem;
+    }
   }
 
   h3 {

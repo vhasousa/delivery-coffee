@@ -1,30 +1,87 @@
 import { Minus, Plus, ShoppingCart } from 'phosphor-react'
-import coffeeImg from '../../assets/expresso.png'
+import { useContext, useEffect, useState } from 'react'
+import { CartContext, SelectedCoffeeDTO } from '../../contexts/CartContext'
 import { CardContainer } from './styles'
 
-export function Card() {
+interface CardProps {
+  coffeeId: number
+  name: string
+  description: string
+  tags: string[]
+  price: number
+  coffeeImage: string
+}
+
+export function Card({
+  coffeeId,
+  name,
+  description,
+  tags,
+  price,
+  coffeeImage,
+}: CardProps) {
+  const [quantityOfCoffee, setQuantityOfCoffee] = useState(1)
+
+  const { addToCart } = useContext(CartContext)
+
+  function addCoffee() {
+    setQuantityOfCoffee((state) => {
+      return state + 1
+    })
+  }
+
+  function removeCoffee() {
+    if (quantityOfCoffee > 1) {
+      setQuantityOfCoffee((state) => {
+        return state - 1
+      })
+    }
+  }
+
+  function handleAddToCart() {
+    const cartData = {
+      id: coffeeId,
+      coffeeImage,
+      name,
+      quantity: quantityOfCoffee,
+    }
+
+    addToCart(cartData)
+  }
+
   return (
     <CardContainer>
-      <img src={coffeeImg} alt="" />
-      <div className="card__tag">Tradicional</div>
-      <h3>Expresso Tradicional</h3>
-      <p>O tradicional café feito com água quente e grãos moídos</p>
+      <img src={coffeeImage} alt="" />
+      <div className="card__tag">
+        {tags.map((tag) => {
+          return <span key={tag}>{tag}</span>
+        })}
+      </div>
+      <h3>{name}</h3>
+      <p>{description}</p>
       <footer>
         <div>
           <span>R$</span>
-          <p>9,00</p>
+          <p>{price}</p>
         </div>
         <div>
           <div>
-            <button>
+            <button onClick={removeCoffee}>
               <Minus />
             </button>
-            <input step={1} type="number" value={1} />
-            <button>
+            <input
+              type="number"
+              min={1}
+              value={quantityOfCoffee}
+              onChange={(event) =>
+                setQuantityOfCoffee(parseInt(event.target.value))
+              }
+            />
+            <button onClick={addCoffee}>
               <Plus />
             </button>
           </div>
-          <button className="card__cart">
+          <button onClick={handleAddToCart} className="card__cart">
             <ShoppingCart weight="fill" />
           </button>
         </div>

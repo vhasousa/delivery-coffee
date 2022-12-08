@@ -38,6 +38,7 @@ export const HeaderContainer = styled.header`
       }
 
       &:nth-child(2) {
+        position: relative;
         background: ${(props) => props.theme['yellow-light']};
         padding: 0.5rem;
         border-radius: 6px;
@@ -48,4 +49,23 @@ export const HeaderContainer = styled.header`
       }
     }
   }
+`
+
+export const CartAmount = styled.div<{
+  hasProduct: boolean
+}>`
+  position: absolute;
+  padding: 0.5rem;
+  right: -0.5rem;
+  top: -0.6rem;
+
+  border-radius: 100%;
+  background: ${(props) => props.theme['yellow-dark']};
+
+  font-weight: bold;
+  font-size: 0.75rem;
+  color: ${(props) => props.theme.white};
+  line-height: 0.5rem;
+
+  visibility: ${(props) => (props.hasProduct ? 'visible' : 'hidden')};
 `
