@@ -2,17 +2,45 @@ import { Card } from '../../components/Card'
 import { Hero } from './components/Hero'
 import { HomeContainer } from './styles'
 import coffeeImg from '../../assets/expresso.png'
-import { useContext, useEffect, useState } from 'react'
-import { CartContext } from '../../contexts/CartContext'
+import coffeeWithMilkImg from '../../assets/cafe-com-leite.png'
+import cubanoImg from '../../assets/cubano.png'
+import capuccinoImg from '../../assets/capuccino.png'
+import { useEffect, useState } from 'react'
 
 const coffees = [
   {
     id: 1,
     name: 'Expresso Tradicional',
     description: 'O tradicional café feito com água quente e grãos moídos',
-    tags: ['Tradicional', 'Com leite'],
+    tags: ['Tradicional'],
     price: 9.99,
     coffeeImage: coffeeImg,
+  },
+  {
+    id: 2,
+    name: 'Café com Leite',
+    description: 'Meio a meio de expresso tradicional com leite vaporizado',
+    tags: ['Tradicional', 'Com leite'],
+    price: 7.89,
+    coffeeImage: coffeeWithMilkImg,
+  },
+  {
+    id: 3,
+    name: 'Cubano',
+    description:
+      'Drink gelado de café expresso com rum, creme de leite e hortelã',
+    tags: ['Especial', 'Alcoólico', 'Gelado'],
+    price: 10.99,
+    coffeeImage: cubanoImg,
+  },
+  {
+    id: 4,
+    name: 'Capuccino',
+    description:
+      'Bebida com canela feita de doses iguais de café, leite e espuma',
+    tags: ['Tradicional', 'Com leite'],
+    price: 8.99,
+    coffeeImage: capuccinoImg,
   },
 ]
 
@@ -47,7 +75,7 @@ export function Home() {
                 description={coffee.description}
                 tags={coffee.tags}
                 price={coffee.price}
-                coffeeImage={coffeeImg}
+                coffeeImage={coffee.coffeeImage}
               />
             )
           })}

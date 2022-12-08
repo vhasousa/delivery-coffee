@@ -1,6 +1,6 @@
 import { Minus, Plus, ShoppingCart } from 'phosphor-react'
-import { useContext, useEffect, useState } from 'react'
-import { CartContext, SelectedCoffeeDTO } from '../../contexts/CartContext'
+import { useContext, useState } from 'react'
+import { CartContext } from '../../contexts/CartContext'
 import { CardContainer } from './styles'
 
 interface CardProps {
