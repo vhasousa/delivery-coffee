@@ -44,6 +44,7 @@ export function Card({
       coffeeImage,
       name,
       quantity: quantityOfCoffee,
+      price,
     }
 
     addToCart(cartData)
