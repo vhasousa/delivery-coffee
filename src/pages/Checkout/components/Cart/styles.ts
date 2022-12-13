@@ -115,9 +115,21 @@ export const TotalPrices = styled.div`
     font-weight: 700;
     transition: 0.3s;
 
-    &:hover {
+    &:not(:disabled):hover {
       background: ${(props) => props.theme['yellow-dark']};
     }
+
+    &:disabled {
+      background: ${(props) => props.theme['yellow-light']};
+      cursor: not-allowed;
+    }
+  }
+
+  span {
+    color: ${(props) => props.theme['yellow-dark']};
+    font-size: 0.75rem;
+    display: block;
+    margin-top: 1rem;
   }
 `
 

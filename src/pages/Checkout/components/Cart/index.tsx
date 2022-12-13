@@ -1,7 +1,8 @@
 import { Minus, Plus, Trash } from 'phosphor-react'
 import { useContext, useEffect, useState } from 'react'
-import coffeeImg from '../../../../assets/expresso.png'
+import { FormProvider } from 'react-hook-form'
 import { CartContext } from '../../../../contexts/CartContext'
+import { OrderContext } from '../../../../contexts/OrderContext'
 import {
   CartContainer,
   CartItem,
@@ -16,6 +17,8 @@ export function Cart() {
 
   const { cart, totalPrice, updateProductQuantity, removeCoffeeFromCart } =
     useContext(CartContext)
+
+  const { createOrder, isSubmitDisabled } = useContext(OrderContext)
 
   function addCoffee(id: number) {
     const cartItemToUpdate = cart.find((item) => item.id === id)
@@ -111,7 +114,14 @@ export function Cart() {
             })}
           </p>
         </Total>
-        <button type="submit">CONFIRMAR PEDIDO</button>
+        <button disabled={isSubmitDisabled} onClick={createOrder}>
+          CONFIRMAR PEDIDO
+        </button>
+        <span>
+          {isSubmitDisabled
+            ? '* Preencha todas as informações para finalizar o seu pedido'
+            : ''}
+        </span>
       </TotalPrices>
     </CartContainer>
   )
