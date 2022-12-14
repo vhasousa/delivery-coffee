@@ -15,8 +15,6 @@ export function Header() {
   useEffect(() => {
     setCartAmount((state) => (state = cartLength))
 
-    console.log(cartAmount)
-
     if (cartAmount >= 1) {
       setHasProduct((state) => (state = true))
     }
@@ -32,7 +30,7 @@ export function Header() {
             <span>Valença, RJ</span>
           </NavLink>
 
-          <NavLink to="/" title="">
+          <NavLink to="/checkout" title="">
             <CartAmount hasProduct={hasProduct}>
               <span>{cartAmount}</span>
             </CartAmount>
