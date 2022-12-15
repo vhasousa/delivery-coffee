@@ -1,13 +1,13 @@
 import { MapPinLine } from 'phosphor-react'
 import { useContext } from 'react'
 import { useForm } from 'react-hook-form'
-import { AddressDTO, OrderContext } from '../../../../contexts/OrderContext'
+import { AddressData, OrderContext } from '../../../../contexts/OrderContext'
 import { AddressContainer } from './styles'
 
 export function Address() {
   const { handleAddressInfo, address } = useContext(OrderContext)
 
-  const { register, getValues } = useForm<AddressDTO>({
+  const { register, getValues } = useForm<AddressData>({
     defaultValues: {
       cep: address?.cep,
       street: address?.street,
@@ -23,7 +23,7 @@ export function Address() {
     const { cep, street, number, complement, district, city, state } =
       getValues()
 
-    const newAddres: AddressDTO = {
+    const newAddres: AddressData = {
       cep,
       street,
       number,
