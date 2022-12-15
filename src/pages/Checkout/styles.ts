@@ -6,12 +6,10 @@ export const CheckoutContainer = styled.main`
   display: flex;
   justify-content: space-between;
 
-  div {
-    > h2 {
-      font-family: 'Baloo 2';
-      font-size: 1rem;
-      color: ${(props) => props.theme['base-subtitle']};
-      margin-bottom: 1rem;
-    }
+  .checkout__title {
+    font-family: 'Baloo 2';
+    font-size: 1rem;
+    color: ${(props) => props.theme['base-subtitle']};
+    margin-bottom: 1rem;
   }
 `

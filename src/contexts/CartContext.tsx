@@ -4,7 +4,7 @@ interface CartContextProviderProps {
   children: ReactNode
 }
 
-export interface SelectedCoffeeDTO {
+export interface SelectedCoffeeData {
   id: number
   name: string
   coffeeImage: string
@@ -13,19 +13,20 @@ export interface SelectedCoffeeDTO {
 }
 
 interface CartContextType {
-  cart: SelectedCoffeeDTO[]
+  cart: SelectedCoffeeData[]
   cartLength: number
   totalPrice: number
-  addToCart: ({ id, coffeeImage, name, quantity }: SelectedCoffeeDTO) => void
+  addToCart: ({ id, coffeeImage, name, quantity }: SelectedCoffeeData) => void
   updateProductQuantity: (quantity: number, id: number) => void
   removeCoffeeFromCart: (id: number) => void
-  setCart: React.Dispatch<React.SetStateAction<SelectedCoffeeDTO[]>>
+  clearCart: () => void
+  setCart: React.Dispatch<React.SetStateAction<SelectedCoffeeData[]>>
 }
 
 export const CartContext = createContext({} as CartContextType)
 
 export function CartContextProvider({ children }: CartContextProviderProps) {
-  const [cart, setCart] = useState<SelectedCoffeeDTO[]>([])
+  const [cart, setCart] = useState<SelectedCoffeeData[]>([])
   const [cartLength, setCartLength] = useState(0)
   const [totalPrice, setTotalPrice] = useState(0)
 
@@ -35,8 +36,8 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
     name,
     quantity,
     price,
-  }: SelectedCoffeeDTO) {
-    const newItemToCart: SelectedCoffeeDTO = {
+  }: SelectedCoffeeData) {
+    const newItemToCart: SelectedCoffeeData = {
       id,
       name,
       quantity,
@@ -44,8 +45,19 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
       price,
     }
 
+    const isAlreadyInCart = cart.find((item) => item.id === id)
+
+    if (isAlreadyInCart) {
+      return
+    }
+
     setCart((state) => [...state, newItemToCart])
     setTotalPrice((state) => state + price * quantity)
+  }
+
+  function clearCart() {
+    setCart([])
+    setTotalPrice(0)
   }
 
   function removeCoffeeFromCart(id: number) {
@@ -89,6 +101,7 @@ export function CartContextProvider({ children }: CartContextProviderProps) {
         addToCart,
         setCart,
         updateProductQuantity,
+        clearCart,
         removeCoffeeFromCart,
       }}
     >

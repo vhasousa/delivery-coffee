@@ -1,6 +1,7 @@
-import { Minus, Plus, Trash } from 'phosphor-react'
 import { useContext, useEffect, useState } from 'react'
-import { FormProvider } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
+import { Minus, Plus, Trash } from 'phosphor-react'
+
 import { CartContext } from '../../../../contexts/CartContext'
 import { OrderContext } from '../../../../contexts/OrderContext'
 import {
@@ -13,12 +14,19 @@ import {
 } from './styles'
 
 export function Cart() {
+  const navigate = useNavigate()
   const [shipping, setShipping] = useState(3.5)
 
-  const { cart, totalPrice, updateProductQuantity, removeCoffeeFromCart } =
-    useContext(CartContext)
+  const {
+    cart,
+    totalPrice,
+    updateProductQuantity,
+    removeCoffeeFromCart,
+    clearCart,
+  } = useContext(CartContext)
 
-  const { createOrder, isSubmitDisabled } = useContext(OrderContext)
+  const { createOrder, isSubmitDisabled, clearCurrentOrder } =
+    useContext(OrderContext)
 
   function addCoffee(id: number) {
     const cartItemToUpdate = cart.find((item) => item.id === id)
@@ -40,6 +48,17 @@ export function Cart() {
         updateProductQuantity(updatedCartItemQuantity, id)
       }
     }
+  }
+
+  function handleCreateOrder() {
+    const createdOrder = createOrder()
+
+    clearCurrentOrder()
+    clearCart()
+
+    navigate('/sucesso', {
+      state: createdOrder,
+    })
   }
 
   return (
@@ -114,7 +133,7 @@ export function Cart() {
             })}
           </p>
         </Total>
-        <button disabled={isSubmitDisabled} onClick={createOrder}>
+        <button disabled={isSubmitDisabled} onClick={handleCreateOrder}>
           CONFIRMAR PEDIDO
         </button>
         <span>

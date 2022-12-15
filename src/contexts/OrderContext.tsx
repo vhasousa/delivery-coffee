@@ -5,13 +5,13 @@ import {
   useEffect,
   useState,
 } from 'react'
-import { CartContext, SelectedCoffeeDTO } from './CartContext'
+import { CartContext, SelectedCoffeeData } from './CartContext'
 
 interface OrderContextProviderProps {
   children: ReactNode
 }
 
-export interface AddressDTO {
+export interface AddressData {
   cep: string
   street: string
   number: string
@@ -21,16 +21,17 @@ export interface AddressDTO {
   state: string
 }
 
-export interface OrderDTO {
+export interface OrderData {
   id: string
-  address: AddressDTO
+  address: AddressData
   paymentMethod: string
-  products: SelectedCoffeeDTO[]
+  products: SelectedCoffeeData[]
 }
 
 interface OrderContextType {
-  order: OrderDTO
-  address: AddressDTO
+  order: OrderData
+  address: AddressData
+  paymentMethod: string
   isSubmitDisabled: boolean
   createOrder: () => void
   handleAddressInfo: ({
@@ -41,15 +42,17 @@ interface OrderContextType {
     number,
     state,
     street,
-  }: AddressDTO) => void
+  }: AddressData) => void
   handleSelectedPaymentMethod: (paymentMethod: string) => void
+  clearCurrentOrder: () => void
 }
 
 export const OrderContext = createContext({} as OrderContextType)
 
 export function OrderContextProvider({ children }: OrderContextProviderProps) {
-  const [order, setOrder] = useState<OrderDTO>({} as OrderDTO)
-  const [address, setAddress] = useState<AddressDTO>({} as AddressDTO)
+  const [orderHistory, setOrderHistory] = useState<OrderData[]>([])
+  const [order, setOrder] = useState<OrderData>({} as OrderData)
+  const [address, setAddress] = useState<AddressData>({} as AddressData)
   const [paymentMethod, setPaymentMethod] = useState('')
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(false)
 
@@ -58,7 +61,7 @@ export function OrderContextProvider({ children }: OrderContextProviderProps) {
   function createOrder() {
     const id = String(new Date().getTime())
 
-    const newOrder: OrderDTO = {
+    const newOrder: OrderData = {
       id,
       address,
       paymentMethod,
@@ -66,6 +69,14 @@ export function OrderContextProvider({ children }: OrderContextProviderProps) {
     }
 
     setOrder(newOrder)
+    setOrderHistory((state) => [...state, newOrder])
+
+    return newOrder
+  }
+
+  function clearCurrentOrder() {
+    setOrder({} as OrderData)
+    setAddress({} as AddressData)
   }
 
   function handleSelectedPaymentMethod(paymentMethod: string) {
@@ -80,8 +91,8 @@ export function OrderContextProvider({ children }: OrderContextProviderProps) {
     number,
     state,
     street,
-  }: AddressDTO) {
-    const deliveryAddress: AddressDTO = {
+  }: AddressData) {
+    const deliveryAddress: AddressData = {
       cep,
       city,
       complement,
@@ -101,7 +112,7 @@ export function OrderContextProvider({ children }: OrderContextProviderProps) {
     number,
     state,
     street,
-  }: AddressDTO) {
+  }: AddressData) {
     if (cep && city && district && number && state && street) {
       return true
     }
@@ -115,17 +126,19 @@ export function OrderContextProvider({ children }: OrderContextProviderProps) {
     } else {
       setIsSubmitDisabled(true)
     }
-  }, [cartLength, paymentMethod, address])
+  }, [cartLength, paymentMethod, address, order])
 
   return (
     <OrderContext.Provider
       value={{
         order,
         address,
+        paymentMethod,
         isSubmitDisabled,
         createOrder,
         handleAddressInfo,
         handleSelectedPaymentMethod,
+        clearCurrentOrder,
       }}
     >
       {children}

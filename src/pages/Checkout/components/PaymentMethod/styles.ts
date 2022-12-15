@@ -29,18 +29,33 @@ export const PaymentMethodContainer = styled.section`
     }
   }
 
-  .payment__options {
+  .payment__options--container {
     width: 100%;
     display: grid;
     grid-template-columns: 33% 33% 33%;
     grid-gap: 0.5rem;
-    margin-top: 2rem;
+    margin-top: 1rem;
+  }
 
-    button {
-      width: 100%;
+  .payment__option {
+    input {
+      appearance: none;
+      visibility: hidden;
+
+      &:checked + label div {
+        background: ${(props) => props.theme['purple-light']};
+        border-color: ${(props) => props.theme.purple};
+      }
+
+      &:not(:checked):hover + label div {
+        background: ${(props) => props.theme['base-hover']};
+      }
+    }
+
+    .payment__option--label {
       display: flex;
       align-items: center;
-      gap: 0.75rem;
+      gap: 0.5rem;
 
       padding: 1rem;
       border-radius: 0.25rem;
@@ -48,18 +63,13 @@ export const PaymentMethodContainer = styled.section`
       color: ${(props) => props.theme['base-text']};
       border: 1px solid transparent;
       cursor: pointer;
-
-      &:focus {
-        border: 1px solid ${(props) => props.theme.purple};
-        background: ${(props) => props.theme['purple-light']};
-      }
+      transition: all 0.4s ease 0s;
 
       svg {
         color: ${(props) => props.theme.purple};
       }
 
       span {
-        line-height: 0;
         font-size: 0.75rem;
       }
     }
